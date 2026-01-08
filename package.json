@@ -1,0 +1,39 @@
+{
+  "name": "uit.ts.adligo.org",
+  "version": "1.0.0",
+  "description": "User Interface Templates (UIT) This is yet another React.js, jsx, svelt kind of templating library with much less emphasis on signals and more emphasis on MV@.",
+  "homepage": "https://github.com/adligo/uit.ts.adligo.org#readme",
+  "bugs": {
+    "url": "https://github.com/adligo/uit.ts.adligo.org/issues"
+  },
+  "dependencies": {
+    "npm": "^11.4.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^22.19.3",
+    "concurrently": "^9.2.1",
+    "connect-livereload": "^0.6.1",
+    "express": "^5.2.1",
+    "livereload": "^0.10.3",
+    "nodemon": "^3.1.11",
+    "typescript": "^5.0.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adligo/uit.ts.adligo.org.git"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev-client": "rm -fr dist && tsc && tsc --watch",
+    "dev-server": "bun server.ts --watch",
+    "open-chrome": "start chrome http://localhost:3333",
+    "dev": "concurrently \"npm run watch-client\" \"npm run watch-server\"",
+    "dev-start": "concurrently \"npm run watch-client\" \"npm run watch-server\" \"npm run open-chrome\"",
+    "start": "node dist/server.js"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "index.js"
+}

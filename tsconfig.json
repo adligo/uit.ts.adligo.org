@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    
+    "allowJs": true,
+    "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "lib": [
+      "DOM"
+    ],
+    "target": "ES2024",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "outDir": "dist",
+    "resolveJsonModule": true,
+    "sourceMap": true
+  },
+  "includeNotes": "server.ts is being run directly by bun, so no need to transpile it",
+  "include": [
+    "src/**/*.mts",
+    "src/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
+  "strict": true
+}
