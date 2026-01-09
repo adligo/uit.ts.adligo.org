@@ -5,7 +5,9 @@ let rb = new RegistryBuilder();
 rb.add(UITBuilder.of(ClientApp.MAIN_VIEW, 
 `
 <div>
-  <input type="text" onChange="callLog(event,this)" placeholder="Enter a number ..."/>
+  <div>
+    <input type="text" onChange="callLog(event,this);" placeholder="Enter a number ..."/>
+  </div>
 </div>
 `,
 `
@@ -13,6 +15,11 @@ rb.add(UITBuilder.of(ClientApp.MAIN_VIEW,
     console.log("callLog with event " + e.target.value);
   }
   console.log("in script from template.");
+  //make the callLog function visable to the html
+  // this is bad encapsulation but works for this simple demo
+  window.callLog = callLog;
 `).build());
 console.log("creating ClientApp");
-new ClientApp(rb.build(), ClientApp.MAIN_VIEW).show();
+let app = new ClientApp(rb.build(), ClientApp.MAIN_VIEW);
+app.bindAppScript();
+app.show();

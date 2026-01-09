@@ -14,7 +14,7 @@ export interface  I_UIT {
      * The name of the component, panel or view
      */
     getName(): string;
-    getHtml(): string;
+    getHtmlTemplate(): string;
 
     hasJs(): boolean;
 }
@@ -72,12 +72,12 @@ export class RegistryBuilder {
 
 export class UITMutant implements I_UIT {
   name: string;
-  html: string;
+  htmlTemplate: string;
   js: string;
 
-  constructor(name: string, html: string, js: string | null = null) {
+  constructor(name: string, htmlTemplate: string, js: string | null = null) {
     this.name = name;
-    this.html = html;
+    this.htmlTemplate = htmlTemplate;
     this.js = js;
   }
 
@@ -92,8 +92,8 @@ export class UITMutant implements I_UIT {
   getName(): string {
     return this.name;
   }
-  getHtml(): string {
-    return this.html;
+  getHtmlTemplate(): string {
+    return this.htmlTemplate;
   }
 }
 
@@ -118,8 +118,8 @@ export class UITShield implements I_UIT {
   getName(): string {
     return this.mutant.getName();
   }
-  getHtml(): string {
-    return this.mutant.getHtml();
+  getHtmlTemplate(): string {
+    return this.mutant.getHtmlTemplate();
   }
 }
 
@@ -141,12 +141,12 @@ export class UITBuilder {
   name: string;
   js: string;
 
-  constructor(name: string, html: string, js: string | null = null) {
+  constructor(name: string, htmlTemplate: string, js: string | null = null) {
     validateName(name);
     this.name = name;
 
-    validateHtml(html);
-    this.html = html;
+    validateHtmlTemplate(htmlTemplate);
+    this.html = htmlTemplate;
     this.js = js;
   }
 
@@ -167,7 +167,7 @@ export class UITBuilder {
     return this.js !== null;
   }
 
-  toHtml() {
+  getHtmlTemplate() {
     return this.html;
   }
 }
@@ -177,17 +177,27 @@ export class UITBuilder {
  * not a full parse! 
  * @param code 
  */
-function validateHtml(html: string) {
-    if (isMissing(html)) {
-        throw new Error("Html is required!");
+function validateHtmlTemplate(htmlTemplate: string) {
+    if (isMissing(htmlTemplate)) {
+        throw new Error("HtmlTemplate is required!");
     }
 }
 
-function validateName(name: string) {
+function isCharWhitespace(char: string): boolean {
+  return char.length > 0 && char.trim().length === 0;
+}
+
+export function validateName(name: string) {
     if (isMissing(name)) {
         throw new Error("A name is required!");
     }
     if (name.charAt(0).toUpperCase() !== name.charAt(0)) {
         throw new Error("Name must start with an uppercase letter!");
+    }
+    for (let index = 0; index < name.length; index++) {
+      let c = name.charAt(index);
+      if (isCharWhitespace(c)) {
+        throw new Error("Name MUST NOT contain whitespace!");
+      }
     }
 }
