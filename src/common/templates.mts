@@ -8,11 +8,15 @@
  * the main User Interface Template after it's parsed
  */
 export interface  I_UIT {
+    /** Inline javascript, set to the head */
+    getJs(): string
     /**
      * The name of the component, panel or view
      */
     getName(): string;
-    getHtml(): string
+    getHtml(): string;
+
+    hasJs(): boolean;
 }
 
 /**
@@ -36,7 +40,7 @@ export class Registry implements I_Registry {
   get(name: string): I_UIT {
     return this.uits.get(name); 
   }
-  
+
   has(name: string): boolean {
     return this.uits.has(name); 
   }
@@ -69,10 +73,20 @@ export class RegistryBuilder {
 export class UITMutant implements I_UIT {
   name: string;
   html: string;
+  js: string;
 
-  constructor(name: string, html: string) {
+  constructor(name: string, html: string, js: string | null = null) {
     this.name = name;
     this.html = html;
+    this.js = js;
+  }
+
+  hasJs(): boolean {
+    return this.js !== null;
+  }
+
+  getJs(): string {
+    return this.js;
   }
 
   getName(): string {
@@ -91,6 +105,14 @@ export class UITShield implements I_UIT {
       throw new Error("Other is required!");
     }
     this.mutant = other;
+  }
+
+  hasJs(): boolean {
+    return this.mutant.hasJs();
+  }
+
+  getJs(): string {
+    return this.mutant.getJs();
   }
 
   getName(): string {
@@ -112,30 +134,41 @@ export function isMissing(o: any) : boolean {
 }
 
 export class UITBuilder {
-  public static readonly of = (name: string, code: string) => {
-    return new UITBuilder(name, code);
+  public static readonly of = (name: string, html: string, js: string | null = null) => {
+    return new UITBuilder(name, html, js);
   }
-  code: string;
+  html: string;
   name: string;
+  js: string;
 
-  constructor(name: string, code: string) {
+  constructor(name: string, html: string, js: string | null = null) {
     validateName(name);
     this.name = name;
 
-    validateCode(code);
-    this.code = code;
+    validateHtml(html);
+    this.html = html;
+    this.js = js;
   }
 
   build() : I_UIT {
-    return new UITShield(new UITMutant(this.name, this.code));
+    return new UITShield(new UITMutant(this.name, this.html, this.js));
   }
+
+  getJs() {
+    return this.js;
+  }
+
 
   getName() {
     return this.name;
   }
 
+  hasJs() {
+    return this.js !== null;
+  }
+
   toHtml() {
-    return this.code;
+    return this.html;
   }
 }
 
@@ -144,9 +177,9 @@ export class UITBuilder {
  * not a full parse! 
  * @param code 
  */
-function validateCode(code: string) {
-    if (isMissing(code)) {
-        throw new Error("Code is required!");
+function validateHtml(html: string) {
+    if (isMissing(html)) {
+        throw new Error("Html is required!");
     }
 }
 
