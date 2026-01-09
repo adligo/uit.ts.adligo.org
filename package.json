@@ -29,6 +29,7 @@
     "dev-server": "bun server.ts --watch",
     "open-chrome": "start chrome http://localhost:3333",
     "dev": "concurrently \"npm run watch-client\" \"npm run watch-server\"",
+    "dev-notes": "Hot reloading seems to work best in two terminals dev-server dev-client",
     "dev-start": "concurrently \"npm run watch-client\" \"npm run watch-server\" \"npm run open-chrome\"",
     "start": "node dist/server.js"
   },

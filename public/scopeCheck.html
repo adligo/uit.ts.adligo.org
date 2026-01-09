@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Scope Check</title>
+</head>
+<body>
+
+    <form onsubmit="return handleMyForm(event, this);">
+        <h4>Name?</h4>  
+        <input type="text" name="nameName" />
+        <!--
+        <input type="text" id="idNoName" />
+        -->
+        <input type="submit" value="Change Name" />
+   </form>
+
+    <h4>Handle Change Event (on focus lost)?</h4> 
+    <input type="text" value="" name="onChangeName" onChange="handleChange(event, this)" />
+    
+    <h4>Event types with Examples above</h4> 
+    <ul>
+        <li>onSubmit done</li>
+        <li>onChange done</li>
+    </ul>
+
+    <h4>Other main event types?</h4> 
+    <ul>
+        <li>onKeyUp</li>
+        <li>onKeyDown</li>
+        <li>onClick</li>
+        <li>onMouseOver</li>
+        <li>onMouseOut</li>
+        <li>onMouseDown</li>
+        <li>onMouseUp</li>
+        <li>others that anyone has used?</li>
+    </ul>
+    <script>
+
+        console.log("Loading script ");
+        const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+        let obj = new Object();
+
+        function handleChange(e, form) {
+          console.log("handleChange with event " + e.target.value);
+        }
+
+        function handleMyForm(e, form) {
+            //prevent form submission
+            if (e.preventDefault === null || e.preventDefault === undefined ) {
+                console.log("fake event");
+            } else {
+                e.preventDefault();
+            }
+
+            try {
+                let formData = new FormData(e.target);
+                let entries = Object.fromEntries(formData);
+
+                // 3. Convert to a plain JavaScript object
+                let data = Object.fromEntries(formData.entries());
+
+                // Use Chrome Debug Points under Sources if necessary
+                console.log("e is " + JSON.stringify(e) + " with data;");
+                console.log(JSON.stringify(entries));
+                console.log("Obj name was " + obj.name);
+                let name = formData.get('nameName')
+                //let name = e.target.elements.nameName.value;
+                obj.name = name;
+                console.log("Obj name is now " + obj.name);
+            } catch (e) {
+                console.error(e.message);
+            }
+            console.log("Form is " +form );
+            let formChildren = form.children;
+            console.log("formChildren are " +formChildren );
+            for (let i = 0; i < formChildren.length; i++) {
+                let child = formChildren[i];
+                console.log("Child " + i + " is " + formChildren[i]);
+                if (child instanceof HTMLInputElement) {
+                    if (child.name === "" && child.type !== "submit") {
+                        alert("This input has no name attribute.");
+                    } else {
+                        console.log("This is an input with name:", child.name, "and value:", child.value);
+                    }
+                } else {
+                    console.log("This reference is not an input element.");
+                }
+                console.log(JSON.stringify(child));
+            }
+            return false;
+        }
+    </script>
+
+
+</body>
+</html>
