@@ -1,76 +1,67 @@
 import { I_Registry, I_UIT, isMissing } from "./templates.mjs";
+import { ParsedNodeType } from "./domParserEngine.mjs";
 
-export class HtmlViewNameNode {
+// @depricated use parserEngine, we may want XML, HTML or SVG!
+
+/**
+ * Keeps the abstraction of pointers to 
+ * User Interface Component Templates
+ * by the id path
+ * 
+ * The html is generated and used at runtime, but this get's kept
+ * for re-renderings 
+ */
+export class HtmlViewNode {
   uit: I_UIT;
   /**
-   * the absolute path
+   * the absolute id path
    */
   absPath: string;
   /**
-   * the relative path
+   * the props passed in
    */
-  relPath: string;
+  props: any | null;
 
-  constructor(uit: I_UIT, absPath: string, relPath: string) {
+  constructor(uit: I_UIT, absPath: string, props: any | null) {
     if (isMissing(uit)) {
       throw new Error("UIT is required!");
     }
     if (isMissing(absPath)) {
       throw new Error("absPath is required!");
     }
-    if (isMissing(relPath)) {
-      throw new Error("relPath is required!");
-    }
     this.uit = uit;
     this.absPath = absPath;
-    this.relPath = relPath;
+    this.props = props;
   }
 }
 
-enum HtmlTemplateNodeType {
-  /**
-   * all the arbitrary text related to javascript and html
-   */
-  ETC,
-  /**
-   * $loop(UITName,uitPropList)
-   */
-  LOOP,
-  /**
-   * $this gets replaced with a lookup;
-   * window.Registry.MyAppName.lookup(uitId)
-   * to this component by id
-   * which is comprised of the AppName.ViewName.PanelName[panelIndex].ComponentName[componentIndex] etc
-   * i.e. ClientApp.MainView.NavBar
-   * or ClientApp.MainView.MainPanel.Card[3]
-   */
-  THIS,
-  /**
-   * UIT is a nested user interface template, which may have a single props value passed down 
-   * in the JSX style
-   * <MyThing />
-   * or
-   * <MyThing {myProps} />
-   */
-  UIT,
-  /**
-   * $val(somePropName)
-   */
-  VAL 
-}
-interface I_HtmlTemplateNode {
-  getType(): HtmlTemplateNodeType;
+
+interface I_ParsedNode {
+  getType(): ParsedNodeType;
 }
 
-class HtmlTemplateNode {
+class ParsedNode {
 
 }
 
 export class HtmlEngineResult {
-  nodeMap: Map<string, HtmlViewNameNode>;
+  nodeMap: Map<string, HtmlViewNode>;
   html: string;
+  /**
+   * the absolute id path of the result
+   */
+  absPath: string;
 
-  constructor(nodeMap: Map<string, HtmlViewNameNode>, html: string) {
+  constructor(nodeMap: Map<string, HtmlViewNode>, html: string, absPath: string) {
+    if (isMissing(nodeMap)) {
+      throw new Error("nodeMap is required!");
+    }
+    if (isMissing(html)) {
+      throw new Error("html is required!");
+    }
+    if (isMissing(absPath)) {
+      throw new Error("absPath is required!");
+    }
     this.nodeMap = nodeMap;
     this.html = html;
   }
@@ -78,21 +69,38 @@ export class HtmlEngineResult {
   
 }
 
-export class HtmlEngine {
+export class HtmlViewEngine {
+  appName: string;
+  pathIdsToHtmlViewNodws : Map<string,HtmlViewNode> = new Map();
   registry: I_Registry;
-  viewName: string;
 
-  constructor(registry: I_Registry, viewName: string) {
+  constructor(appName: string, registry: I_Registry) {
+    if (isMissing(appName)) {
+      throw new Error("appName is required!");
+    }
+    if (isMissing(registry)) {
+      throw new Error("registry is required!");
+    }
+    this.appName = appName;
     this.registry = registry;
-    this.viewName = viewName;
   }
 
-  private _createHtmlView() {
+  private _createHtmlView(parentAbsPath: string) {
     
   }
 
-  createHtmlView(): Map<string, HtmlViewNameNode> {
-    let map = new Map<string, HtmlViewNameNode>();
+  /**
+   * 
+   * @returns 
+   */
+  createRootHtmlView(uitName: string): string {
+    let map = new Map<string, HtmlViewNode>();
+
+    return "HtmlToDO";
+  }
+
+  createHtmlView(): Map<string, HtmlViewNode> {
+    let map = new Map<string, HtmlViewNode>();
 
     return map;
   }

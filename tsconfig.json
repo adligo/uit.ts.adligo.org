@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    
+    "skipLibCheck": true,
     "allowJs": true,
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
@@ -9,12 +9,18 @@
       "DOM"
     ],
     "target": "ES2024",
+    "types": ["node"],
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    },
     "outDir": "dist",
     "resolveJsonModule": true,
     "sourceMap": true
   },
+  "notes": "paths and baseUrl were added for vite",
   "includeNotes": "server.ts is being run directly by bun, so no need to transpile it",
   "include": [
     "src/**/*.mts",

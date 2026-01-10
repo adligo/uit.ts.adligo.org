@@ -20,20 +20,18 @@ export class ClientApp {
   public static readonly DEFAULT_NAME = "ClientApp";
   public static readonly MAIN_VIEW = "MainView";
   registry: I_Registry;
-  mainViewName: string;
+  mainUitName: string;
   name: string = ClientApp.DEFAULT_NAME;
   rootElement: string = ClientApp.BODY;
   props: any = new Object();
 
-  constructor(registry: I_Registry, mainView: string, rootElement: string = ClientApp.BODY) {
+  constructor(registry: I_Registry, mainUitName: string, rootElement: string = ClientApp.BODY) {
     if (isMissing(registry)) {
       throw new Error("Registry is required!");
     }
-    if (isMissing(mainView)) {
-      throw new Error("Main view is required!");
-    }
+    validateName(mainUitName);
     this.registry = registry;
-    this.mainViewName = mainView;
+    this.mainUitName = mainUitName;
     this.rootElement = rootElement;
   }
 
@@ -55,12 +53,12 @@ export class ClientApp {
   }
 
   bindAppScript(): ClientApp {
-    let mainView: I_UIT = this.registry.get(this.mainViewName);
-    console.log("mainView.hasJs(): ", mainView.hasJs());
-    if (mainView.hasJs()) {
+    let mainUit: I_UIT = this.registry.get(this.mainUitName);
+    console.log("mainView.hasJs(): ", mainUit.hasJs());
+    if (mainUit.hasJs()) {
 
         // Create a Blob from the string
-        const blob = new Blob([mainView.getJs()], { type: 'application/javascript' });
+        const blob = new Blob([mainUit.getJs()], { type: 'application/javascript' });
 
         // Create a URL for the Blob
         const url = URL.createObjectURL(blob);
@@ -80,15 +78,23 @@ export class ClientApp {
 
 
   show(): ChildNode {
-    let mainView: I_UIT = this.registry.get(this.mainViewName);
-    console.log("ClientApp.show with mainView  ", mainView);
+    let mainUit: I_UIT = this.registry.get(this.mainUitName);
+    console.log("ClientApp.show with mainView  ", mainUit);
     let parser = new DOMParser();
-    let node = parser.parseFromString(mainView.getHtmlTemplate(), 'text/html');
+    let node = parser.parseFromString(mainUit.getHtmlTemplate(), 'text/html');
+    //methods available to manipulate the virtual dom, on first display
+    //after that we can manipulate by id value
+    //node.children
+    //node.appendChild(node);
+    //node.insertBefore(node);
+    //node.removeChild
+    //node.parentNode
+
     // 3. Grab the node from the virtual document's body
     const newNode = node.body.firstChild;
     if (this.rootElement === ClientApp.BODY) {
         if (newNode instanceof Element) {
-          newNode.setAttribute('id', this.name +"." + ClientApp.MAIN_VIEW);
+          newNode.setAttribute('id', this.name +"." + this.mainUitName);
         }
         let cn = document.body.appendChild(newNode);
         return cn;
@@ -97,7 +103,7 @@ export class ClientApp {
     //else by id
       const element = document.getElementById(this.rootElement);
       if (element) {
-        element.innerHTML = mainView.getHtmlTemplate();
+        element.innerHTML = mainUit.getHtmlTemplate();
       } else {
         throw new Error("Root element not found: " + this.rootElement);
       }
