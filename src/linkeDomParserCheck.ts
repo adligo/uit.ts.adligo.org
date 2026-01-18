@@ -46,7 +46,7 @@ var serverStyleHtml = `
   <h1>LinkeDomParser client API check</h1>
 
   <p>
-  Node.js Dependencies: jsdom relies on Node-specific modules like fs (file system) and net. To run it in a browser, you must use a bundler like Webpack or Browserify with specific polyfills to "trick" the library into thinking it's in Node.
+  Node.js Dependencies: linkedom, note this doesn't use jsdom because its hard to link in the browser linkedom seems more portable.
   </p>
   <h3> Output Checks </h3>
   <ul>
