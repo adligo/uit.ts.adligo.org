@@ -6,28 +6,28 @@
   "bugs": {
     "url": "https://github.com/adligo/uit.ts.adligo.org/issues"
   },
-  "dependencyNotes": "you will likely need to also install @rollup/rollup-win32-x64-msvc or some @rollup that works on your OS",
+  "dependencyNotes": "you may need to also install @rollup/rollup-win32-x64-msvc or some @rollup that works on your OS",
   "dependencies": {
     "buffer": "^6.0.3",
     "jsdom": "^27.4.0",
     "linkedom": "^0.18.12",
-    "npm": "^11.4.0",
+    "npm": "^11.7.0",
     "path-browserify": "^1.0.1",
     "process": "^0.11.10",
     "stream-browserify": "^3.0.0",
-    "util": "^0.12.5",
-    "vite-plugin-node-polyfills": "^0.24.0"
+    "util": "^0.12.5"
   },
   "devDependencies": {
     "@types/express": "^5.0.6",
     "@types/jsdom": "^27.0.0",
-    "@types/node": "^22.19.3",
+    "@types/node": "^25.0.9",
     "concurrently": "^9.2.1",
     "connect-livereload": "^0.6.1",
     "express": "^5.2.1",
     "livereload": "^0.10.3",
     "nodemon": "^3.1.11",
-    "typescript": "^5.0.4"
+    "tar": "^7.5.3",
+    "typescript": "^5.9.3"
   },
   "repository": {
     "type": "git",
