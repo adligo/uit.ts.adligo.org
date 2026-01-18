@@ -5,6 +5,10 @@ let rb = new RegistryBuilder();
 rb.add(UITBuilder.of(ClientApp.MAIN_VIEW, 
 `
 <div>
+  <h1>What does this page do?</h1>
+  <p>You will simply want to look in the JavaScript console for what this page does, not much.
+    When you see the 'Uncaught ReferenceError: $this is not defined', please fix it :)_
+  </p>
   <h3>TODO dynamic $this and title</h3>
   <input type="text" onChange="$this.callLog(event,this)" placeholder="Enter a number ..."/>
   <input type="submit" onClick="$this.reRender(event,this)" value="ReRender"/>
