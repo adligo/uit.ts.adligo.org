@@ -20,10 +20,13 @@ export enum ParsedNodeType {
    * The $loop text token can be included as innerText in another element like a div.
    * <pre><code>
    * <div>
-   * $loop("UITName",visibleVal,uitPropList)
-   * $loop("MyThing",visibleVal,uitPropList,attendantList)
+   * <_Loop name="UITName" show={showMyThing, true} props={uitPropList} />
+   * <_Loop name="MyThing" seperator="OtherUITName" show={showMyThing, true} props={uitPropList} />
    * </div>
    * </code></pre>
+   * 
+   * Hidden Loops will have a embed tag set in there place;
+   * <embed id="uitPathId" style="visibility: hidden;" />
    */
   LOOP,
   /**
@@ -35,7 +38,7 @@ export enum ParsedNodeType {
    */
   NO_JS,
   /**
-   * $this gets replaced in attributes with a attendant adapter lookup;
+   * $this gets replaced in attributes with a presenter adapter lookup;
    * window.Registry.MyAppName.lookup("uitId")
    * to this component by id
    * which is comprised of the AppName.ViewName.PanelName[panelIndex].ComponentName[componentIndex] etc
@@ -62,11 +65,18 @@ export enum ParsedNodeType {
    * or
    * <MyThing props={myProps} />
    * or
-   * Note show is basically a bolean like visible, but if it's false the component gets ommitted 
-   * from the DOM competely.  If the MyThing UIT provides an attendant it will be attached either
-   * after rendering on the client, or after load in the client for server side rendered UITs. 
+   * Note show is basically a bolean like visible, but if it's false the component gets replaced 
+   * with a <div style="hidden" />.  
    * 
+   * By default UITs are visible
    * <MyThing show={showMyThing} props={myProps} />
+   * 
+   * By default UITs are visible, they may also be toggled and have a defalut visibility of false;
+   * <MyThing show={showMyThing, true} props={myProps} />
+   * <MyThing show={showMyThing, false} props={myProps} />
+   * 
+   * Hidden UITs will have a embed tag set in there place;
+   * <embed id="uitPathId" style="visibility: hidden;" />
    */
   UIT,
   /**

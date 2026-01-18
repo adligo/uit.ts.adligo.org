@@ -28,9 +28,14 @@ async function checkParse(parserChecks: Map<string, boolean>, url: string, type)
   return;
 }
 
-await checkParse(parserChecks, "/index.html", DomParserType.HTML);
-await checkParse(parserChecks, "/etc/books.xml", DomParserType.XML);
-await checkParse(parserChecks, "/etc/camera.svg", DomParserType.SVG);
+await Promise.all([
+  checkParse(parserChecks, "/index.html", DomParserType.HTML),
+  checkParse(parserChecks, "/etc/books.xml", DomParserType.XML),
+  checkParse(parserChecks, "/etc/camera.svg", DomParserType.SVG),
+  checkParse(parserChecks, "/etc/uit-ks.html", DomParserType.HTML)
+]);
+
+
 /**
  * serverStyleHtml is NOT a recommended way of doing this, 
  * but since the recommended way doesn't work at this point it's
@@ -38,7 +43,7 @@ await checkParse(parserChecks, "/etc/camera.svg", DomParserType.SVG);
  */
 var serverStyleHtml = `
 <div>
-  <h1>DomParser client API check</h1>
+  <h1>LinkeDomParser client API check</h1>
 
   <p>
   Node.js Dependencies: jsdom relies on Node-specific modules like fs (file system) and net. To run it in a browser, you must use a bundler like Webpack or Browserify with specific polyfills to "trick" the library into thinking it's in Node.

@@ -28,9 +28,13 @@ async function checkParse(parserChecks: Map<string, boolean>, url: string, type)
   return;
 }
 
-await checkParse(parserChecks, "/index.html", DomParserType.HTML);
-await checkParse(parserChecks, "/etc/books.xml", DomParserType.XML);
-await checkParse(parserChecks, "/etc/camera.svg", DomParserType.SVG);
+await Promise.all([
+  checkParse(parserChecks, "/index.html", DomParserType.HTML),
+  checkParse(parserChecks, "/etc/books.xml", DomParserType.XML),
+  checkParse(parserChecks, "/etc/camera.svg", DomParserType.SVG),
+  checkParse(parserChecks, "/etc/uit-ks.html", DomParserType.HTML)
+]);
+
 /**
  * serverStyleHtml is NOT a recommended way of doing this, 
  * but since the recommended way doesn't work at this point it's

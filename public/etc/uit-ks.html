@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>UIT Kitchen Sink</title>
+</head>
+<body>
+    <h1>UIT Kitchen Sink</h1>
+    This file simply tests to see if everything is valid enough html to not blow up the browser generally.
+    
+
+    <h1>$val(foo)</h1>
+    
+    <div>
+      <_Loop name="UITName" show={showMyThing, true} props={uitPropList} />
+    </div>
+    <_Loop name="MyThing" seperator="OtherUITName" show={showMyThing, true} props={uitPropList} />
+    
+    <h2 class="$val(bar)" id="$id" onclick="return $this.sendEvent(event, this);">H22</h2>
+    <form>
+      <_JS onSubmit="return $this.sendEvent(event, this);" />
+      <_NO_JS action="/search" method="GET" />
+    </form>
+    
+    <MyThing />
+    <MyThing  {myProps} />
+    <MyThing show={showMyThing} props={myProps} />
+    <MyThing show={showMyThing, true} props={myProps} />
+    <MyThing show={showMyThing, false} props={myProps} />
+    
+    <embed id="123" style="visibility: hidden;" />
+    <br>
+    The bottom text should show.
+</body>
+</html>
