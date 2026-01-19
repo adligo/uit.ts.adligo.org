@@ -43,8 +43,9 @@
     "dev-start": "concurrently \"npm run watch-client\" \"npm run watch-server\" \"npm run open-chrome\"",
     "start": "node dist/server.js"
   },
-  "license": "ISC",
-  "author": "",
-  "type": "module",
-  "main": "index.js"
+  "license": "Apache-2.0",
+  "author": "Scott Morgan",
+  "sharedNodeModuleProjectSLinkEnvVar": ["MVPA_NODE_MODULE_SLINK"],
+  "sharedNodeModuleProjectSLinks": ["mvpa_group_deps.ts.adligo.org"],
+  "type": "module"
 }

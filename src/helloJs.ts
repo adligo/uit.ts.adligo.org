@@ -5,6 +5,9 @@ let rb = new RegistryBuilder();
 rb.add(UITBuilder.of(ClientApp.MAIN_VIEW, 
 `
 <div>
+  <h1>What does this page do?</h1>
+  <p>You will simply want to look in the JavaScript console for what this page does, not much.
+  </p>
   <div>
     <input type="text" onChange="callLog(event,this);" placeholder="Enter a number ..."/>
   </div>
